@@ -6,9 +6,9 @@ env:
   NODE_OPTIONS: --max_old_space_size=6144
 
 on:
-  pull_request:
-  push:
-    branches: ['main']
+  # pull_request:
+  # push:
+  #   branches: ['main']
   release:
     types:
       - published
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-20.04
     timeout-minutes: 45
     needs: [build]
-    # if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v3.0.0
         with:
