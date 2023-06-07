@@ -19,11 +19,14 @@ jobs:
     timeout-minutes: 45
     if: github.event_name != 'pull_request'
     steps:
+
       - uses: actions/checkout@v3.0.0
         with:
           fetch-depth: 0
+
       - uses: olafurpg/setup-scala@v13
-      - run: sbt ci-release
+
+      - run: sbt compile ci-release
         env:
           PGP_PASSPHRASE: ${{ secrets.GPG_PASS }}
           PGP_SECRET: ${{ secrets.GPG_KEY }}
