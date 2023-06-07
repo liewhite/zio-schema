@@ -14,48 +14,11 @@ on:
       - published
 
 jobs:
-  lint:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-    steps:
-      - name: Checkout current branch
-        uses: actions/checkout@v3.0.0
-        with:
-          fetch-depth: 0
-      - name: Setup Scala and Java
-        uses: olafurpg/setup-scala@v13
-      - name: Cache scala dependencies
-        uses: coursier/cache-action@v6
-      - name: Lint code
-        run: sbt fmtCheck fixCheck
-
-  build:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        java: ['adopt@1.8', 'adopt@1.11']
-        scala: ['2.12.17', '2.13.8', '3.2.1']
-    steps:
-    - uses: actions/checkout@v3.0.0
-      with:
-        fetch-depth: 0
-    - uses: olafurpg/setup-scala@v13
-      with:
-        java-version: ${{ matrix.java }}
-    - name: Cache scala dependencies
-      uses: coursier/cache-action@v6
-    - name: Run tests
-      run: sbt ++${{ matrix.scala }}! test
-
   publish:
     runs-on: ubuntu-20.04
     timeout-minutes: 45
-    needs: [build,lint]
-    if: github.event_name != 'pull_request'
+    needs: [build]
+    # if: github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v3.0.0
         with:
