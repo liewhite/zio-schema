@@ -25,7 +25,7 @@ jobs:
       - uses: olafurpg/setup-scala@v13
       - run: sbt ci-release
         env:
-          # PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_PASSPHRASE: ${{ secrets.GPG_PASS }}
           PGP_SECRET: ${{ secrets.GPG_KEY }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
