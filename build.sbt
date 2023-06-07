@@ -7,6 +7,8 @@ inThisBuild(
     name := "zio-schema",
     organization := "dev.zio",
     homepage := Some(url("https://zio.dev/zio-schema")),
+    sonatypeCredentialHost := "s01.oss.sonatype.org",
+    sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
     developers := List(
       Developer(
         "ioleo",
@@ -24,7 +26,7 @@ inThisBuild(
     scmInfo := Some(
       ScmInfo(
         homepage.value.get,
-        "scm:git:git@github.com:zio/zio-schema.git"
+        "scm:git:git@github.com:liewhite/zio-schema.git"
       )
     ),
     licenses := Seq("Apache-2.0" -> url(s"${scmInfo.value.map(_.browseUrl).get}/blob/v${version.value}/LICENSE")),
