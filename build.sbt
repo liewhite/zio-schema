@@ -24,7 +24,7 @@ inThisBuild(
     scmInfo := Some(
       ScmInfo(
         homepage.value.get,
-        "scm:git:git@github.com:zio/zio-schema.git"
+        "scm:git:git@github.com:liewhite/zio-schema.git"
       )
     ),
     licenses := Seq("Apache-2.0" -> url(s"${scmInfo.value.map(_.browseUrl).get}/blob/v${version.value}/LICENSE")),
@@ -279,7 +279,6 @@ lazy val zioSchemaOpticsJVM = zioSchemaOptics.jvm
 lazy val zioSchemaExamples = crossProject(JSPlatform, JVMPlatform)
   .in(file("zio-schema-examples"))
   .settings(stdSettings("zio-schema-examples"))
-  .settings(crossScalaVersions -= Scala212)
   .dependsOn(zioSchema, zioSchemaJson, zioSchemaProtobuf, zioSchemaOptics)
   .settings(
     publish / skip := true,

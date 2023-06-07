@@ -8,9 +8,7 @@ import scalafix.sbt.ScalafixPlugin.autoImport._
 
 object BuildHelper {
 
-  val Scala212: String = "2.12.12"
-  val Scala213: String = "2.13.10"
-  val Scala3: String   = "3.3.0" //versions.getOrElse("3.0", versions("3.1"))
+  val Scala3: String   = "3.2.2" //versions.getOrElse("3.0", versions("3.1"))
 
   val zioVersion                   = "2.0.15"
   val zioJsonVersion               = "0.5.0"
@@ -183,8 +181,8 @@ object BuildHelper {
   def stdSettings(prjName: String) =
     Seq(
       name := s"$prjName",
-      crossScalaVersions := Seq(Scala213, Scala212, Scala3),
-      ThisBuild / scalaVersion := Scala213, //crossScalaVersions.value.head, //Scala3,
+      crossScalaVersions := Seq(Scala3),
+      ThisBuild / scalaVersion := Scala3, //crossScalaVersions.value.head, //Scala3,
       scalacOptions := compilerOptions(scalaVersion.value, optimize = !isSnapshot.value),
       libraryDependencies ++= compileOnlyDeps(scalaVersion.value) ++ testDeps,
       ThisBuild / semanticdbEnabled := scalaVersion.value != Scala3, // enable SemanticDB,
