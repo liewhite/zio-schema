@@ -7,6 +7,7 @@ inThisBuild(
     name := "zio-schema",
     organization := "dev.zio",
     homepage := Some(url("https://zio.dev/zio-schema")),
+    scalacOptions += "-Yretain-trees",
     sonatypeCredentialHost := "s01.oss.sonatype.org",
     sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
     developers := List(
