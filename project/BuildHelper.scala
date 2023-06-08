@@ -21,9 +21,9 @@ object BuildHelper {
     list.map(v => (v.split('.').take(2).mkString("."), v)).toMap
   }
 
-  val Scala212: String = versions("2.12")
-  val Scala213: String = versions("2.13")
-  val Scala3: String   = versions("3.2") //versions.getOrElse("3.0", versions("3.1"))
+  val Scala212: String = "2.12.17"
+  val Scala213: String = "2.13.8"
+  val Scala3: String   = "3.2.2" //versions.getOrElse("3.0", versions("3.1"))
 
   val zioVersion                   = "2.0.13"
   val zioJsonVersion               = "0.5.0"
