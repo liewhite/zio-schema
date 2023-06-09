@@ -10,6 +10,7 @@ inThisBuild(
     scalacOptions += "-Yretain-trees",
     sonatypeCredentialHost := "s01.oss.sonatype.org",
     sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
+    sonatypeProfileName := "io.github.liewhite"
     developers := List(
       Developer(
         "ioleo",
