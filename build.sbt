@@ -5,7 +5,7 @@ import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.scalaJSUseMainModuleInitia
 inThisBuild(
   List(
     name := "zio-schema",
-    organization := "dev.zio",
+    organization := "io.github.liewhite",
     homepage := Some(url("https://zio.dev/zio-schema")),
     scalacOptions += "-Yretain-trees",
     sonatypeCredentialHost := "s01.oss.sonatype.org",
