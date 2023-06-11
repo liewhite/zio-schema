@@ -282,7 +282,6 @@ lazy val zioSchemaOpticsJVM = zioSchemaOptics.jvm
 lazy val zioSchemaExamples = crossProject(JSPlatform, JVMPlatform)
   .in(file("zio-schema-examples"))
   .settings(stdSettings("zio-schema-examples"))
-  .settings(crossScalaVersions -= Scala212)
   .dependsOn(zioSchema, zioSchemaJson, zioSchemaProtobuf, zioSchemaOptics)
   .settings(
     publish / skip := true,

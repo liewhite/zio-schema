@@ -275,24 +275,33 @@ private case class DeriveSchema()(using val ctx: Quotes) extends ReflectionUtils
         field.name -> field.annotations.filter(filterAnnotation).map(_.asExpr)
     }
 
-  private def defaultValues(from: Symbol): Predef.Map[String, Expr[Any]] =
-    (1 to from.primaryConstructor.paramSymss.size).toList.map(
-      i =>
-          from
-            .companionClass
-            .declaredMethod(s"$$lessinit$$greater$$default$$$i")
-            .headOption
-            .orElse(
-              from
-                .companionClass
-                .declaredMethod(s"$$apply$$default$$$i")
-                .headOption
-            )
-            .map(Select(Ref(from.companionModule), _).asExpr)
-      ).zip(from.primaryConstructor.paramSymss.flatten.map(_.name)).collect{case (Some(expr), name) => name -> expr}.toMap
+  private def defaultValues(sym: Symbol): Predef.Map[String, Expr[Any]] = {
+    val comp = sym.companionClass
+    val types = 
+      for p <- sym.caseFields if p.flags.is(Flags.HasDefault)
+      yield p.tree.asInstanceOf[ValDef].tpt.tpe
+    val names = 
+      for p <- sym.caseFields if p.flags.is(Flags.HasDefault)
+      yield p.name
+    val body = comp.tree.asInstanceOf[ClassDef].body
+    val idents: List[Ref] = 
+      for case deff @ DefDef(name, _, _, _) <- body
+      if name.startsWith("$lessinit$greater$default")
+      yield Ref(deff.symbol)
+
+    val namesExpr: Expr[List[String]] =
+      Expr.ofList(names.map(Expr(_)))
+    val identsExpr = idents.map(_.asExpr)
+    names.zip(identsExpr).toMap
+  }
 
   private def fromConstructor(from: Symbol): scala.collection.Map[String, List[Expr[Any]]] = {
-      val defaults = defaultValues(from)
+      val defaults = try{
+        defaultValues(from)
+      } catch {
+        case _ => Predef.Map.empty
+      }
+
       from.primaryConstructor.paramSymss.flatten.map { field =>
         field.name -> {
           val annos = field.annotations
