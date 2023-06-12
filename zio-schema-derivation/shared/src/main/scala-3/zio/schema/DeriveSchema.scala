@@ -291,7 +291,13 @@ private case class DeriveSchema()(using val ctx: Quotes) extends ReflectionUtils
 
     val namesExpr: Expr[List[String]] =
       Expr.ofList(names.map(Expr(_)))
-    val identsExpr = idents.map(_.asExpr)
+    val identsExpr = idents.map(i => {
+      if(i.isExpr) {
+        i.asExpr
+      }else {
+        i.appliedToType(TypeRepr.of[Any]).asExpr
+      }
+    })
     names.zip(identsExpr).toMap
   }
 
@@ -299,9 +305,10 @@ private case class DeriveSchema()(using val ctx: Quotes) extends ReflectionUtils
       val defaults = try{
         defaultValues(from)
       } catch {
-        case _ => Predef.Map.empty
+        case e => {
+          Predef.Map.empty
+        }
       }
-
       from.primaryConstructor.paramSymss.flatten.map { field =>
         field.name -> {
           val annos = field.annotations
