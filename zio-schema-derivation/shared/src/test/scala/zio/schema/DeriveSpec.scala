@@ -162,6 +162,15 @@ object DeriveSpec extends ZIOSpecDefault with VersionSpecificDeriveSpec {
           assertTrue(refEquals)
         }
       ),
+      suite("enum inner case")(
+        test("derive enum inner case") {
+          val sm = DeriveSchema.gen[DeriveInnerEnum.Inner1]
+          given Schema[DeriveInnerEnum.Inner1] = sm
+          val s = summon[Schema[DeriveInnerEnum.Inner1]]
+          println(sm -> s)
+          assertTrue(true)
+        }
+      ),
       suite("default field values")(
         test("use case class default values") {
           val capturedSchema = Derive.derive[CapturedSchema, RecordWithDefaultValue[Int]](schemaCapturer)
@@ -299,6 +308,11 @@ object DeriveSpec extends ZIOSpecDefault with VersionSpecificDeriveSpec {
   }
 
   case class RecordWithDefaultValue[T](t: Option[T], int: Int = 42, @fieldDefaultValue(52) int2: Int = 42) derives Schema
+
+  enum DeriveInnerEnum derives Schema {
+    case Inner1(a: Int)
+    case Inner2(b: Int)
+  }
 
   sealed trait Enum1
 
